@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<head>
+ 
+    <title>Employee List</title>
+    <style>
+        body {font-family: Arial, sans-serif;margin: 10px;}
+
+        table {border-collapse: collapse;width: 80%;
+            margin-top: 5px;}
+
+    th, td {
+            border: 1px solid rgb(0, 0, 0);
+            padding: 5px;
+            text-align: left;
+     }
+      
+
+        button:hover {
+            background-color: #b8d5f4;
+        }
+
+        
+
+
+
+
+        label {
+            display: block;
+            margin: 8px 0;
+        }
+        button {
+            margin: 5px 2px;
+            padding: 6px 12px;
+            background-color: rgb(205, 111, 242);
+            color: rgb(0, 0, 0);
+           
+        }
+        
+       
+    </style>
+</head>
+<body>
+    <a href="new.html" class="back">← Back to Home</a>
+    <h2> Employee table</h2>
+    <button onclick="showAddForm()">Add Employee</button>
+
+    <table id="employeeTable">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Department</th>
+            <th>Joining Date</th>
+            <th>Gender</th>
+            <th>Employment Type</th>
+            <th>Actions</th>
+        </tr>
+        <tr>
+            <td>EMP001</td>
+            <td>Rafid</td>
+            <td>kmhrafid@gmail.com</td>
+            <td>IT</td>
+            <td>5-04-2022</td>
+            <td>Male</td>
+            <td>Full-Time</td>
+            <td>
+                <button onclick="editRow(this)">Edit</button>
+                <button onclick="deleteRow(this)">Delete</button>
+            </td>
+        </tr>
+    </table>
+
+
+    <div id="addDiv" style="display:none;">
+        <h3>Add New Employee</h3>
+        <label>ID: <input type="text" id="addId"></label>
+        <label>Name: <input type="text" id="addName"></label>
+        <label>Email: <input type="text" id="addEmail"></label>
+        <label>Department: <input type="text" id="addDept"></label>
+        <label>Joining Date: <input type="date" id="addDate"></label>
+        <label>Gender: <input type="text" id="addGender"></label>
+        <label>Employment Type: <input type="text" id="addType"></label>
+        <button onclick="addEmployee()">Add</button>
+    
+    </div>
+    <!-- Edit Section -->
+    <div id="editDiv" style="display:none;">
+        <h3>Edit Employee</h3>
+        <input id="editIndex" type="hidden">
+        <label>Name: <input type="text" id="editName"></label>
+        <label>Email: <input type="text" id="editEmail"></label>
+        <label>Department: <input type="text" id="editDept"></label>
+        <label>Joining Date: <input type="date" id="editDate"></label>
+        <label>Gender: <input type="text" id="editGender"></label>
+        <label>Employment Type: <input type="text" id="editType"></label>
+        <button onclick="saveEdit()">Save</button>
+    </div>
+
+    <script>
+        let currentRow;
+
+        function deleteRow(btn) {
+            btn.closest("tr").remove();
+        }
+
+        function editRow(btn) {
+            currentRow = btn.closest("tr");
+            let cells = currentRow.children;
+            document.getElementById("editName").value =  cells[1].textContent;
+              document.getElementById("editEmail").value = cells[2].textContent;
+            document.getElementById("editDept").value = cells[3].textContent;
+            document.getElementById("editDate").value = cells[4].textContent;
+
+            document.getElementById("editGender").value = cells[5].textContent;
+            document.getElementById("editType").value  = cells[6].textContent;
+            document.getElementById("editDiv").style.display = "block";
+        }
+
+        function saveEdit() {
+        let cells = currentRow.children;
+            cells[1].textContent  = document.getElementById("editName").value;
+            cells[2].textContent = document.getElementById("editEmail").value;
+            cells[3].textContent =  document.getElementById("editDept").value;
+            cells[4].textContent  = document.getElementById("editDate").value;
+            cells[5].textContent = document.getElementById("editGender").value;
+
+            cells[6].textContent  = document.getElementById("editType").value;
+            document.getElementById("editDiv").style.display = "none";
+        }
+
+        function showAddForm() {
+            document.getElementById("addDiv").style.display = "block";
+        }
+
+        function addEmployee() {
+            let id =  document.getElementById("addId").value;
+         let name  = document.getElementById("addName").value;
+            let email = document.getElementById("addEmail").value;
+        let dept = document.getElementById("addDept").value;
+            let date  = document.getElementById("addDate").value;
+            let gender =document.getElementById("addGender").value;
+             let type = document.getElementById("addType").value;
+
+            let table = document.getElementById("employeeTable");
+            let row = document.createElement("tr");
+
+            let data = [id, name, email, dept, date, gender, type];
+            for (let value of data) {
+                let td = document.createElement("td");
+                td.textContent = value;
+                row.appendChild(td);
+            }
+
+            let actionTd = document.createElement("td");
+
+            let editBtn = document.createElement("button");
+            editBtn.textContent = "Edit";
+            editBtn.onclick = function () { editRow(editBtn); };
+
+            let deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+            deleteBtn.onclick = function () { deleteRow(deleteBtn); };
+
+            actionTd.appendChild(editBtn);
+            actionTd.appendChild(deleteBtn);
+            row.appendChild(actionTd);
+
+            table.appendChild(row);
+
+         // Clear form 
+            document.getElementById("addId").value = "";
+            document.getElementById("addName").value = "";
+            document.getElementById("addEmail").value = "";
+            document.getElementById("addDept").value = "";
+            document.getElementById("addDate").value = "";
+            document.getElementById("addGender").value = "";
+            document.getElementById("addType").value = "";
+            document.getElementById("addDiv").style.display = "none";
+        }
+    </script>
+</body>
+</html>
