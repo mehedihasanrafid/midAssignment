@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Registration</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px; background: rgb(255, 255, 255);
+  }
+    form {
+      background: rgb(244, 183, 183);
+      max-width: 500px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+ }
+    
+
+
+    input, select {
+      width: 100%;
+      padding: 8px; margin-top: 5px;
+    }
+    .error {
+      color: red;font-size: 0.9em;
+    }
+    .radio-group {
+      margin-top: 10px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px; }
+    button:hover {
+  background-color: rgb(248, 94, 94); 
+}
+  </style>
+  <script>
+    function validateForm() {
+      
+      const empId = document.getElementById("empId").value.trim();
+      const name = document.getElementById("fullName").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const department = document.getElementById("department").value;
+      const joinDate = document.getElementById("joinDate").value;
+      const gender = document.querySelector("input[name='gender']:checked");
+
+      
+      const empIdError = document.getElementById("empIdError");
+      const nameError = document.getElementById("nameError");
+      const emailError = document.getElementById("emailError");
+      const deptError = document.getElementById("deptError");
+      const dateError = document.getElementById("dateError");
+      const genderError = document.getElementById("genderError");
+
+      
+      empIdError.innerText = "";
+      nameError.innerText = "";
+      emailError.innerText  = "";
+      deptError.innerText = "";
+      dateError.innerText = "";
+
+      genderError.innerText = "";
+
+      // Regex patterns genarated by CHatgpt
+      const empIdPattern = /^EMP\d{3}$/;
+      const namePattern = /^[A-Za-z ]+$/;
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+      let isValid = true;
+
+      if (!empIdPattern.test(empId))
+       {
+        empIdError.innerText = "* Employee ID must be in format EMP123";
+        isValid = false; }
+      if (!namePattern.test(name))
+       {
+        nameError.innerText = "* Name must contain only alphabets and spaces";
+        isValid = false;
+      }
+      if (!emailPattern.test(email)) {
+        emailError.innerText = "* Invalid email format";
+        isValid = false;
+                }
+      if (!department) {
+        deptError.innerText = "* Please select a department";
+        isValid = false;}
+      if (!joinDate) {
+           dateError.innerText = "* Please enter a joining date";
+        isValid = false;}
+      if (!gender) {
+        genderError.innerText = "* Please select gender"  ;
+        isValid = false;
+    }
+
+      return isValid;
+    }
+  </script>
+
+</head>
+<body>
+    <a href="new.html" class="back-btn">← Back to Home</a>
+
+  <h2 style="text-align: center;">Employee Registration</h2>
+
+  <form id="empForm" onsubmit="return validateForm()">
+    <label for="empId">Employee ID:</label>
+    <input type="text" id="empId" name="empId">
+    <div id="empIdError" class="error"></div>
+
+    <label for="fullName">Full Name:</label>
+    <input type="text" id="fullName" name="fullName">
+    <div id="nameError" class="error"></div>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" name="email">
+    <div id="emailError" class="error"></div>
+
+    <label for="department">Department:</label>
+        <select id="department" name="department">
+      <option value=""> Select Department</option>
+      <option value ="HR">HR</option>
+      <option value="IT">IT</option>
+      <option value="Sales">Sales</option>
+      <option value ="Marketing">Marketing</option>
+    </select>
+    <div id="deptError" class="error"></div>
+
+       <label for="joinDate">Joining Date:</label>
+    <input type="date" id="joinDate" name="joinDate">
+    <div id="dateError" class="error"></div>
+
+    <div class="radio-group">
+      <label>Gender:</label>
+      <input type="radio" name="gender" value="Male"> Male
+      <input type="radio" name="gender" value="Female"> Female
+    </div>
+    <div id="genderError" class="error"></div>
+
+    <button type="submit">Submit</button>
+    <button type="reset">Reset</button>
+  </form>
+
+  
+</body>
+</html>
